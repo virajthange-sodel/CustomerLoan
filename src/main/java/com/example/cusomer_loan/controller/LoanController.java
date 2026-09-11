@@ -5,6 +5,7 @@ import com.example.cusomer_loan.dtos.LoanRequest;
 import com.example.cusomer_loan.dtos.LoanResponse;
 import com.example.cusomer_loan.entities.LoanApplication;
 import com.example.cusomer_loan.service.LoanService;
+import com.example.cusomer_loan.utilities.Encrypted;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,7 @@ public class LoanController {
     }
 
     @PostMapping("/apply")
+    @Encrypted
     public ResponseEntity<LoanResponse> applyLoan(@RequestBody LoanRequest request) {
         System.out.println("request coming :"+ request);
         System.out.println("Loan type is: "+request.getLoanType());

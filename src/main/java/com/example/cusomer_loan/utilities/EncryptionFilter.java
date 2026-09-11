@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-@Component
+//@Component
 public class EncryptionFilter extends OncePerRequestFilter {
 
     private final AesEncryptionUtil encryptionUtil;
@@ -34,7 +34,7 @@ public class EncryptionFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/test/"); // skip encryption for test endpoints
+        return path.startsWith("/test/") || path.startsWith("/api/customer"); // skip encryption for test endpoints
     }
 
 
@@ -74,8 +74,8 @@ public class EncryptionFilter extends OncePerRequestFilter {
             return rawBody;
         }
 
-        JsonNode node = objectMapper.readTree(rawBody);
-        String encryptedData = node.get("data").asText();
+        JsonNode node = objectMapper.readTree(rawBody);      //It parses JSON into a tree structure.
+        String encryptedData = node.get("data").asText();     //asText() converts into plain java object
 
         String decrypted = encryptionUtil.decrypt(encryptedData);
         System.out.println("DECRYPTED BODY: [" + decrypted + "]"); // <-- add brackets to spot leading/trailing whitespace
